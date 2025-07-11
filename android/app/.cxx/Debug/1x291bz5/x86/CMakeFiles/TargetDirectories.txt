@@ -1,0 +1,2 @@
+/Users/quylee/Documents/Workspace/mevivu_projects/app_homieopen_3047/android/app/.cxx/Debug/1x291bz5/x86/CMakeFiles/edit_cache.dir
+/Users/quylee/Documents/Workspace/mevivu_projects/app_homieopen_3047/android/app/.cxx/Debug/1x291bz5/x86/CMakeFiles/rebuild_cache.dir

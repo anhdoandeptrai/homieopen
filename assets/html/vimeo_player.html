@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <script src="https://player.vimeo.com/api/player.js"></script>
+</head>
+<body style="margin:0; padding:0; overflow:hidden; background-color: transparent">
+  <iframe id="vimeoPlayer" frameborder="0" allow="autoplay; fullscreen" allowfullscreen
+    width="100%" height="100%" style="position:absolute;top:0;left:0;" src="">
+  </iframe>
+
+  <script>
+    let player;
+
+    function initVimeo(videoId) {
+      const iframe = document.getElementById('vimeoPlayer');
+      iframe.src = `https://player.vimeo.com/video/${videoId}?background=1&api=1&muted=1`;
+
+      player = new Vimeo.Player(iframe);
+
+      window.flutterVimeoPlayer = {
+      play: () => player.play(),
+        pause: () => player.pause(),
+        
+        playPause: async function () {
+          const paused = await player.getPaused();
+          paused ? player.play() : player.pause();
+        },
+        getIsPaused: async function () {
+          const isPaused = await player.getPaused();
+          window.flutter_inappwebview.callHandler('isPaused', isPaused);
+        },
+        setCurrentTime: function (seconds) {
+          player.setCurrentTime(seconds);
+        },
+        getCurrentTime: async function () {
+          const time = await player.getCurrentTime();
+          window.flutter_inappwebview.callHandler('currentTime', time);
+        },
+        getDuration: async function () {
+          const duration = await player.getDuration();
+          window.flutter_inappwebview.callHandler('duration', duration);
+        },
+        unmute: () => player.setMuted(false),
+        mute: () => player.setMuted(true),
+      };
+      player.on('play', function () {
+        window.flutter_inappwebview.callHandler('videoStarted');
+      });
+       // Gửi thời gian phát mỗi lần update
+      player.on('timeupdate', function (data) {
+        window.flutter_inappwebview.callHandler('currentTime', data.seconds);
+      });
+    }
+  </script>
+</body>
+</html>
